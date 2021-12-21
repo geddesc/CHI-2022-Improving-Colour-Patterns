@@ -33,8 +33,42 @@ class _PreStudyQuestionnaireState extends State<PreStudyQuestionnaire> {
   int recoloring = -1;
 
   Future<int> updateTreatmentList(String cvd) async {
+    var db = FirebaseFirestore.instance;
 
     int treatment = 0;
+    DocumentReference ref;
+    if (cvd == "Protan") {
+      ref = db.collection("protan").doc("grKjXEpNyElYwHL3xP2j");
+    } else if (cvd == "Deutan") {
+      ref = db.collection("deutan").doc("bbhQe6GiQaNAWFblSQ63");
+    } else if (cvd == "Tritan") {
+      ref = db.collection("tritan").doc("r4N7w7q5Z34vUK3HAGlH");
+    } else if (cvd == "Monochromacy") {
+      ref = db.collection("monochromat").doc("B1VapdsIpOQEcwOevrLw");
+    } else {
+      ref = db.collection("normal").doc("GBVhcArEveoYGUmjJrCD");
+    }
+
+    try {
+      await db.runTransaction((t) async {
+        final doc = await t.get(ref);
+        final data = doc?.data();
+        if (data != null) {
+          var treatmentList = List<int>.from(data['treatmentList']) ?? [];
+          if (treatmentList.isEmpty) {
+            treatment = 0;
+            data['treatmentList'] = [1, 2, 3];
+            t.update(ref, data);
+          } else {
+            treatment = treatmentList.removeAt(0);
+            data['treatmentList'] = treatmentList;
+            t.update(ref, data);
+          }
+        }
+      });
+    } catch (e) {
+      print("Transaction failure: $e");
+    }
     return treatment;
   }
 
@@ -1300,20 +1334,21 @@ class _PreStudyQuestionnaireState extends State<PreStudyQuestionnaire> {
                                                       color: DesignTheme
                                                           .primaryColor,
                                                       onPressed: () {
-                                                        // updateTreatmentList(cvd)
-                                                        //     .then((treatment) {
-                                                        //   colourTaskData
-                                                        //           .treatment =
-                                                        //       treatment;
+                                                        updateTreatmentList(cvd)
+                                                            .then((treatment) {
+                                                          colourTaskData
+                                                                  .treatment =
+                                                              treatment;
                                                           Navigator.of(context)
                                                               .pushReplacement(
                                                                   CustomRoute(
                                                                       builder:
                                                                           (context) {
                                                             return widget.onNext(
-                                                                0);
+                                                                colourTaskData
+                                                                    .treatment);
                                                           }));
-                                                       // });
+                                                        });
                                                       },
                                                       child: Padding(
                                                         padding: EdgeInsets.all(
@@ -1336,15 +1371,15 @@ class _PreStudyQuestionnaireState extends State<PreStudyQuestionnaire> {
                                             );
                                           });
                                     } else {
-                                      // updateTreatmentList(cvd)
-                                      //     .then((treatment) {
-                                        //colourTaskData.treatment = treatment;
+                                      updateTreatmentList(cvd)
+                                          .then((treatment) {
+                                        colourTaskData.treatment = treatment;
                                         Navigator.of(context).pushReplacement(
                                             CustomRoute(builder: (context) {
                                           return widget
-                                              .onNext(0);
+                                              .onNext(colourTaskData.treatment);
                                         }));
-                                      //});
+                                      });
                                     }
 
                                     //db.collection('cities').doc('SF');

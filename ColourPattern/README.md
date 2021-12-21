@@ -1,6 +1,6 @@
 # Colour Pattern Study
 
-This is the code we used to run the study. We have removed all code to access and write/read to our database, however, the core functionality and implementations of the tasks and patterns can be seen. 
+This is the code we used to run the study. 
 
 ## Task Implementations
 
