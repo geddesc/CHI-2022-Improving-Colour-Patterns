@@ -1,17 +1,12 @@
-# observationStudyScaffold
+# Colour Pattern Study
 
-A new Flutter project.
+This is the code we used to run the study. We have removed all code to access and write/read to our database, however, the core functionality and implementations of the tasks and patterns can be seen. 
 
-## Getting Started
+## Task Implementations
 
-This project is a starting point for a Flutter application.
+To go ahead and checkout each task implementation you will need to check under the lib folder in study_src and then finally in ColourTasks. The tutorials are seperate from the actual tasks, and can be found based on including either intro or tutorial after the task name. 
 
-A few resources to get you started if this is your first Flutter project:
+## Pattern Implementations
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+To see the pattern implementation you will similar to the task implementation have to look under the lib and then under the study_src folders, then you will find the implementations under the ColourPatterns Folder. In this folder you can find the pattern introduction pages (pattern_name_introduction.dart), the widgets which create the box size and draw each pattern (pattern_name_widget.dart), and the concrete implementation which draws the pattern using a canvas (pattern_name.dart).
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# ColourPattern
